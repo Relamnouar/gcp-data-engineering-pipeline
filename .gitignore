@@ -1,6 +1,4 @@
 # --- Security ---
-credentials/
-*.json
 !package.json
 !manifest.json
 *.pem

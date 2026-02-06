@@ -1,0 +1,48 @@
+{
+  "type": "record",
+  "name": "CartEvent",
+  "namespace": "com.ey.fakestore",
+  "doc": "Schema for cart events from Fake Store API",
+  "fields": [
+    {
+      "name": "event_id",
+      "type": "string",
+      "doc": "Unique event identifier"
+    },
+    {
+      "name": "event_type",
+      "type": "string",
+      "doc": "Type of event: cart_created, cart_modified, cart_deleted"
+    },
+    {
+      "name": "event_schema_version",
+      "type": "string",
+      "doc": "Schema version for backward compatibility"
+    },
+    {
+      "name": "source",
+      "type": "string",
+      "doc": "Source system identifier"
+    },
+    {
+      "name": "extracted_at",
+      "type": "string",
+      "doc": "API extraction timestamp"
+    },
+    {
+      "name": "published_at",
+      "type": "string",
+      "doc": "Pub/Sub publication timestamp"
+    },
+    {
+      "name": "run_id",
+      "type": "string",
+      "doc": "Execution run identifier"
+    },
+    {
+      "name": "data",
+      "type": "string",
+      "doc": "Raw cart data payload as JSON string"
+    }
+  ]
+}
