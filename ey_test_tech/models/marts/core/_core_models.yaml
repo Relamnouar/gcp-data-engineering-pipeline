@@ -1,0 +1,102 @@
+version: 2
+
+models:
+  # -----------------------------------------------------------------------------
+  # FACT TABLE: Orders (Line Items)
+  # -----------------------------------------------------------------------------
+  - name: fct_order_items
+    description: "Central fact table. Granularity: One row per product in a cart."
+    columns:
+      - name: cart_id
+        description: "Foreign key of the cart. A cart can contain multiple rows (items)."
+        tests:
+          - not_null
+
+      - name: user_id
+        description: "Foreign key of the user who placed the order."
+        tests:
+          - not_null
+          - relationships: # Referential integrity check
+              to: ref('dim_users')
+              field: user_id
+
+      - name: product_id
+        description: "Foreign key of the purchased product."
+        tests:
+          - not_null
+          - relationships: # Referential integrity check
+              to: ref('dim_products')
+              field: product_id
+
+      - name: order_date
+        description: "Order date (without time) used for table partitioning."
+        tests:
+          - not_null
+
+      - name: quantity
+        description: "Quantity purchased of this specific product."
+        tests:
+          - not_null
+
+      - name: gross_revenue
+        description: "Total line amount (Quantity * Catalog unit price)."
+        tests:
+          - not_null
+
+  # -----------------------------------------------------------------------------
+  # DIMENSION: Products
+  # -----------------------------------------------------------------------------
+  - name: dim_products
+    description: "Registry of sold products (Daily Snapshot)."
+    columns:
+      - name: product_id
+        description: "Unique primary key of the product."
+        tests:
+          - unique
+          - not_null
+
+      - name: title
+        description: "Commercial name of the product."
+        tests:
+          - not_null
+
+      - name: category
+        description: "Product category (e.g., electronics, jewelery...)."
+        tests:
+          - not_null
+
+      - name: catalog_price
+        description: "Official unit price of the product."
+        tests:
+          - not_null
+
+      - name: average_rating
+        description: "Average customer rating (from 0 to 5)."
+
+      - name: review_count
+        description: "Total number of customer reviews."
+
+  # -----------------------------------------------------------------------------
+  # DIMENSION: Users
+  # -----------------------------------------------------------------------------
+  - name: dim_users
+    description: "Registry of users and their addresses."
+    columns:
+      - name: user_id
+        description: "Unique primary key of the user."
+        tests:
+          - unique
+          - not_null
+
+      - name: email
+        description: "Contact email (considered unique)."
+        tests:
+          - not_null
+
+      - name: city
+        description: "City of delivery."
+        tests:
+          - not_null
+
+      - name: location_point
+        description: "Geographic point (GEOGRAPHY) for distance calculations."

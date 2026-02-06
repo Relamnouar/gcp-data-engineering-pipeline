@@ -1,0 +1,15 @@
+ey_test_tech:
+  outputs:
+    dev:
+      dataset: dbt_init_setup
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      location: europe-west9
+      method: service-account
+      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"
+      project: "{{ env_var('GCP_PROJECT_ID') }}"
+      dataset: "{{ env_var('BQ_DATASET') }}"
+      priority: interactive
+      threads: 4
+      type: bigquery
+  target: dev

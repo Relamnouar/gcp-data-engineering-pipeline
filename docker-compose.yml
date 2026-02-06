@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  data-pipeline:
+    container_name: ey-data-runner
+    build: .
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app
+      - ./credentials:/app/credentials
+    
+    env_file:
+      - .env
+    
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials/gcp-key.json
+      - DBT_PROFILES_DIR=/app
+      - GCP_PROJECT_ID=${GCP_PROJECT_ID}
+      - BQ_DATASET=${BQ_DATASET}
+      - TF_VAR_project_id=${GCP_PROJECT_ID}
+      - TF_VAR_region=${GCP_REGION}
+      - TF_VAR_location=${GCP_LOCATION}
+      - TF_VAR_bigquery_dataset_id=${BQ_DATASET}
+      - TF_VAR_raw_bucket_name=${GCS_BUCKET_NAME}

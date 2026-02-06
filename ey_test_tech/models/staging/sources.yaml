@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: fake_store
+    database: "{{ env_var('GCP_PROJECT_ID') }}" # Project ID GCP
+    schema: "{{ env_var('BQ_DATASET') }}"     # dataset 
+    tables:
+      - name: products_raw
+      - name: users_raw
+      - name: carts_raw_stream
